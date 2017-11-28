@@ -16,6 +16,7 @@ public class Consumer extends Thread {
     @Override
     public void run(){
         while(!isInterrupted()){
+
             try {
                 if(count%n == 0 && count!=0)
                     secondQueue.get();
