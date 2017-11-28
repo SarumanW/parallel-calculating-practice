@@ -42,7 +42,9 @@ public class FirstQueue {
             }
 
             Product product = items.get(0);
+
             if(product!=null){
+                items.remove(0);
                 System.out.println("Consumer took product");
                 bufferNotEmpty.signalAll();
             }
