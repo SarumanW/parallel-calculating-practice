@@ -9,18 +9,24 @@ import java.util.concurrent.locks.ReentrantLock;
 public class FirstQueue {
     private static final int MAX_SIZE = 10;
     private final List<Product> items = new LinkedList<>();
+    private static int deletedProducts = 0;
     //private final Random random = new Random();
 
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition bufferNotFull = lock.newCondition();
     private final Condition bufferNotEmpty = lock.newCondition();
 
+    public int getDeletedProducts() {
+        return deletedProducts;
+    }
+
     public void put(Product product) throws InterruptedException {
         lock.lock();
         try {
-            while (items.size() == MAX_SIZE) {
-                System.out.println(Thread.currentThread().getName() + " : Buffer is full, waiting");
-                bufferNotEmpty.await();
+            if (items.size() == MAX_SIZE) {
+                System.out.println(Thread.currentThread().getName() + " : Buffer is full, product deleted");
+                deletedProducts++;
+                return;
             }
 
             boolean isAdded = items.add(product);
@@ -37,7 +43,7 @@ public class FirstQueue {
         lock.lock();
         try{
             while(items.size() == 0){
-                System.out.println(Thread.currentThread().getName() + " : Buffer is empty, waiting");
+                System.out.println("Can't get from First queue");
                 bufferNotFull.await();
             }
 
@@ -45,7 +51,7 @@ public class FirstQueue {
 
             if(product!=null){
                 items.remove(0);
-                System.out.println("Consumer took product");
+                System.out.println("Consumer took product from the first queue");
                 bufferNotEmpty.signalAll();
             }
         } finally{

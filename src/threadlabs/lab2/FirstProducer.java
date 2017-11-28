@@ -13,7 +13,7 @@ public class FirstProducer extends Thread {
         while(!isInterrupted()){
             try{
                 firstQueue.put(new Product(5));
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e){
                 return;
             }
