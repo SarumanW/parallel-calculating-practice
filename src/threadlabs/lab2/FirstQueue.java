@@ -2,57 +2,52 @@ package threadlabs.lab2;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FirstQueue {
-    public static int MAX_SIZE = 10;
-    List<Product> items = new LinkedList<Product>();
-    ReentrantLock lock = new ReentrantLock();
-    Condition emptyCondition = lock.newCondition();
-    Condition fullCondition = lock.newCondition();
+    private static final int MAX_SIZE = 10;
+    private final List<Product> items = new LinkedList<>();
+    //private final Random random = new Random();
 
-    public void push(Product item){
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition bufferNotFull = lock.newCondition();
+    private final Condition bufferNotEmpty = lock.newCondition();
+
+    public void put(Product product) throws InterruptedException {
         lock.lock();
-
-        try{
-            if(items.size() >= MAX_SIZE){
-                try{
-                    fullCondition.await();
-                } catch (InterruptedException e) {
-                    Logger.getLogger(Queue.class.getName()).log(Level.SEVERE, null, e);
-                }
+        try {
+            while (items.size() == MAX_SIZE) {
+                System.out.println(Thread.currentThread().getName() + " : Buffer is full, waiting");
+                bufferNotEmpty.await();
             }
-            items.add(item);
-            emptyCondition.signal();
-        } finally{
+
+            boolean isAdded = items.add(product);
+            if (isAdded) {
+                System.out.println(Thread.currentThread().getName() + " added product to the first queue");
+                bufferNotFull.signalAll();
+            }
+        } finally {
             lock.unlock();
         }
     }
 
-    public Product pull(){
-        Product result = null;
+    public void get() throws InterruptedException {
         lock.lock();
-
         try{
-            if(items.isEmpty()){
-                try{
-                    emptyCondition.await();
-                } catch (InterruptedException e) {
-                    Logger.getLogger(Queue.class.getName()).log(Level.SEVERE, null, e);
-                    return null;
-                }
+            while(items.size() == 0){
+                System.out.println(Thread.currentThread().getName() + " : Buffer is empty, waiting");
+                bufferNotFull.await();
             }
 
-            result = items.isEmpty() ? null : items.remove(0);
-            fullCondition.signal();
+            Product product = items.get(0);
+            if(product!=null){
+                System.out.println("Consumer took product");
+                bufferNotEmpty.signalAll();
+            }
         } finally{
             lock.unlock();
         }
-        return result;
     }
-
 }

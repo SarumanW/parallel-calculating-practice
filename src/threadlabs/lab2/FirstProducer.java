@@ -4,18 +4,18 @@ public class FirstProducer extends Thread {
     FirstQueue firstQueue;
 
     public FirstProducer(FirstQueue firstQueue){
+        super("FirstProducer");
         this.firstQueue = firstQueue;
     }
 
     @Override
     public void run(){
         while(!isInterrupted()){
-            firstQueue.push(new Product(5));
-            System.out.println("First producer pushed product");
             try{
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                return;
+                firstQueue.put(new Product(5));
+                Thread.sleep(1000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
             }
         }
     }

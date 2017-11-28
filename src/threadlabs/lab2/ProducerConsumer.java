@@ -3,19 +3,17 @@ package threadlabs.lab2;
 public class ProducerConsumer {
     public static void main(String[] args) throws InterruptedException {
         FirstQueue firstQueue = new FirstQueue();
-        SecondQueue secondQueue = new SecondQueue();
 
-        Consumer consumer = new Consumer(firstQueue, secondQueue);
-        FirstProducer firstProducer = new FirstProducer(firstQueue);
-        SecondProducer secondProducer = new SecondProducer(secondQueue);
+        FirstProducer fp = new FirstProducer(firstQueue);
+        Consumer c = new Consumer(firstQueue);
 
-        consumer.start();
-        firstProducer.start();
-        secondProducer.start();
+        fp.start();
+        c.start();
 
-        Thread.sleep(15000);
-        consumer.interrupt();
-        firstProducer.interrupt();
-        secondProducer.interrupt();
+        Thread.sleep(5000);
+        fp.interrupt();
+        c.interrupt();
+        System.out.println("ARE INTERRUPTED!!!");
+
     }
 }
