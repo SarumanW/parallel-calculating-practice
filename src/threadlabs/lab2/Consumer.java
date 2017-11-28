@@ -15,7 +15,7 @@ public class Consumer extends Thread {
                 firstQueue.get();
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return;
             }
         }
     }

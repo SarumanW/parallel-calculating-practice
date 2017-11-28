@@ -15,7 +15,7 @@ public class FirstProducer extends Thread {
                 firstQueue.put(new Product(5));
                 Thread.sleep(1000);
             } catch (InterruptedException e){
-                e.printStackTrace();
+                return;
             }
         }
     }
