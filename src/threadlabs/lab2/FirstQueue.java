@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class FirstQueue {
-    private static final int MAX_SIZE = 10;
+    private static final int MAX_SIZE = 3;
     private final List<Product> items = new LinkedList<>();
     private static int deletedProducts = 0;
     //private final Random random = new Random();
@@ -31,7 +31,7 @@ public class FirstQueue {
 
             boolean isAdded = items.add(product);
             if (isAdded) {
-                System.out.println(Thread.currentThread().getName() + " added product to the first queue");
+                System.out.println(Thread.currentThread().getName() + " added product to the first queue : " + items.size());
                 bufferNotFull.signalAll();
             }
         } finally {

@@ -22,7 +22,7 @@ public class SecondQueue {
         try {
             boolean isAdded = items.add(product);
             if (isAdded) {
-                System.out.println(Thread.currentThread().getName() + " added product to the second queue");
+                System.out.println(Thread.currentThread().getName() + " added product to the second queue : " + items.size());
                 bufferNotFull.signalAll();
             }
         } finally {

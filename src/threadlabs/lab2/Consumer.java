@@ -18,13 +18,15 @@ public class Consumer extends Thread {
         while(!isInterrupted()){
 
             try {
-                if(count%n == 0 && count!=0)
+                if(count == n){
                     secondQueue.get();
-                else {
-                    count++;
-                    firstQueue.get();
+                    count = 0;
                 }
-                Thread.sleep(25);
+                else {
+                    firstQueue.get();
+                    count++;
+                }
+                Thread.sleep(40);
             } catch (InterruptedException e) {
                 return;
             }
