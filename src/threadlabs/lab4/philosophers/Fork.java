@@ -3,8 +3,8 @@ package threadlabs.lab4.philosophers;
 import java.util.concurrent.Semaphore;
 
 public class Fork {
-    public Semaphore fork;
-    public int id;
+    private Semaphore fork;
+    private int id;
 
     Fork(int id) {
         this.id = id;

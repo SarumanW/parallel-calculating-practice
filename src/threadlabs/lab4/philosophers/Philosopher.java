@@ -12,26 +12,20 @@ public class Philosopher extends  Thread{
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-
-        }
-
-        while (true) {
-            eat();
+        while(!isInterrupted()){
+            try {
+                eat();
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                return;
+            }
         }
     }
 
     private void eat(){
         if(fork_low.take()){
             if(fork_high.take()){
-                try {
-                    System.out.println(Thread.currentThread().getName() + " is eating");
-                    Thread.sleep(2000); // eating;
-                } catch (InterruptedException ex) {
-
-                }
+                System.out.println(Thread.currentThread().getName() + " is eating");
                 fork_high.putDown();
                 fork_low.putDown();
             }
