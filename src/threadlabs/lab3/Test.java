@@ -1,10 +1,6 @@
 package threadlabs.lab3;
 
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 public class Test {
     public static void main(String[] args) throws InterruptedException {
