@@ -11,7 +11,6 @@ public class Barber extends Thread {
     public void run(){
         while(!isInterrupted()){
             barberShop.cut();
-
         }
     }
 }

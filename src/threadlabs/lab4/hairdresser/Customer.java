@@ -5,7 +5,7 @@ public class Customer extends Thread {
     BarberShop barberShop;
 
     public Customer(BarberShop barberShop, String name){
-        super(name);
+        this.name = name;
         this.barberShop = barberShop;
     }
 

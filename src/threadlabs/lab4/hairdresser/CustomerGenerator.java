@@ -2,7 +2,7 @@ package threadlabs.lab4.hairdresser;
 
 public class CustomerGenerator extends Thread{
     BarberShop barberShop;
-    private int count = 0;
+    public int count = 1;
 
     public CustomerGenerator(BarberShop barberShop){
         this.barberShop = barberShop;
@@ -13,10 +13,11 @@ public class CustomerGenerator extends Thread{
         while(!isInterrupted()){
             Customer customer = new Customer(barberShop, "Customer" + count);
             customer.start();
+            count++;
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                return;
+                System.out.println("Exception(");
             }
         }
     }

@@ -40,7 +40,7 @@ public class BarberShop {
                 try {
                     customerList.wait();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.out.println("Exception(");
                 }
             }
 
@@ -54,7 +54,7 @@ public class BarberShop {
             long duration = (long)(Math.random()*10);
             TimeUnit.SECONDS.sleep(duration);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Exception(");
         }
 
         System.out.println("Haircut for Customer : " + customer.getCustomerName() + " is completed");
